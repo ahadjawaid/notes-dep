@@ -13,5 +13,6 @@ struct NotesApp: App {
         WindowGroup {
             ContentView()
         }
+        .modelContainer(for: [Folder.self, Note.self])
     }
 }
