@@ -23,8 +23,6 @@ func getCurrentDevice() -> String {
 
 
 struct ContentView: View {
-    let currentDevice = getCurrentDevice()
-    
     @Query(sort: \Folder.name) private var folders: [Folder]
     @Environment(\.modelContext) private var context
     

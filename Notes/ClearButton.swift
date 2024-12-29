@@ -23,7 +23,7 @@ struct ClearButton: ViewModifier {
                 }
                 .foregroundStyle(.tertiary)
                 .labelStyle(.iconOnly)
-                .buttonStyle(BorderlessButtonStyle())
+                .buttonStyle(.borderless)
             }
         }
     }

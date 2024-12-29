@@ -8,6 +8,41 @@
 import SwiftUI
 import SwiftData
 
+struct SecondaryToolbarButton: Identifiable {
+    let id = UUID()
+    
+    let text: String
+    let systemImage: String
+    let action: @MainActor () -> Void
+}
+
+let secondaryToolbarButtons: [SecondaryToolbarButton] = [
+    SecondaryToolbarButton(text: "View as Gallery", systemImage: "square.grid.2x2", action: {
+        
+    }),
+    SecondaryToolbarButton(text: "Add Folder", systemImage: "folder.badge.plus", action: {
+        
+    }),
+    SecondaryToolbarButton(text: "Move This Folder", systemImage: "folder", action: {
+        
+    }),
+    SecondaryToolbarButton(text: "Rename", systemImage: "pencil", action: {
+        
+    }),
+    SecondaryToolbarButton(text: "Select Notes", systemImage: "check.circle", action: {
+        
+    }),
+    SecondaryToolbarButton(text: "Sort By", systemImage: "arrow.up.arrow.down", action: {
+        
+    }),
+    SecondaryToolbarButton(text: "Group By Date", systemImage: "calendar", action: {
+        
+    }),
+    SecondaryToolbarButton(text: "View Attachments", systemImage: "paperclip", action: {
+        
+    }),
+]
+
 struct NoteList: View {
     let folder: Folder
     @Binding var selectedNote: Note?
@@ -31,6 +66,12 @@ struct NoteList: View {
         .searchable(text: $searchText)
         .navigationTitle(folder.name)
         .toolbar {
+            ToolbarItemGroup(placement: .secondaryAction) {
+                ForEach(secondaryToolbarButtons) { button in
+                    Button(button.text, systemImage: button.systemImage, action: button.action)
+                }
+                
+            }
             ToolbarItemGroup(placement: .bottomBar) {
                 Spacer()
                 
