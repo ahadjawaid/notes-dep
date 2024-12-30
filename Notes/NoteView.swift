@@ -32,7 +32,6 @@ struct NoteView: View {
                     note.body = text
                 }
                 .focused($isFocused)
-                .border(isFocused ? .red : .clear)
         }
         .padding()
         .toolbar() {
@@ -53,3 +52,12 @@ struct NoteView: View {
             .modelContainer(for: Note.self, inMemory: true)
     }
 }
+
+#Preview("Dark Mode") {
+    NavigationStack {
+        NoteView(note: SampleData.shared.note)
+            .modelContainer(for: Note.self, inMemory: true)
+    }
+    .preferredColorScheme(.dark)
+}
+

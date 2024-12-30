@@ -54,6 +54,12 @@ struct ContentView: View {
         .modelContainer(SampleData.shared.modelContainer)
 }
 
+#Preview("Dark Mode") {
+    ContentView()
+        .preferredColorScheme(.dark)
+        .modelContainer(SampleData.shared.modelContainer)
+}
+
 #Preview("Empty List") {
     ContentView()
         .modelContainer(for: [Folder.self, Note.self], inMemory: true)
