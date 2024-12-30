@@ -75,7 +75,7 @@ struct NoteList: View {
             ToolbarItemGroup(placement: .bottomBar) {
                 Spacer()
                 
-                Text("\(folder.notes.count) Note")
+                Text(folder.notes.count > 0 ? "\(folder.notes.count) Note" : "No Notes")
                     .font(.footnote)
                 
                 Spacer()
