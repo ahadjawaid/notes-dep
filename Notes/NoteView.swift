@@ -35,6 +35,13 @@ struct NoteView: View {
         }
         .padding()
         .toolbar() {
+            ToolbarItem {
+                Button("Share", systemImage: "square.and.arrow.up") {
+                    
+                }
+                .disabled(text.isEmpty)
+            }
+            
             if isFocused {
                 ToolbarItem {
                     Button("Done") {
@@ -50,6 +57,7 @@ struct NoteView: View {
     NavigationStack {
         NoteView(note: SampleData.shared.note)
             .modelContainer(for: Note.self, inMemory: true)
+            .tint(.yellow)
     }
 }
 
@@ -59,5 +67,6 @@ struct NoteView: View {
             .modelContainer(for: Note.self, inMemory: true)
     }
     .preferredColorScheme(.dark)
+    .tint(.yellow)
 }
 
