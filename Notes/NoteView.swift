@@ -12,7 +12,6 @@ struct NoteView: View {
     let note: Note
     
     @Environment(\.modelContext) private var context
-    @Environment(\.dismiss) private var dismiss
     
     @State var text: String = "Type here..."
     @State private var showDate: Bool = false
@@ -34,18 +33,36 @@ struct NoteView: View {
                 .focused($isFocused)
         }
         .padding()
-        .toolbar() {
+        .toolbar {
             ToolbarItem {
-                Button("Share", systemImage: "square.and.arrow.up") {
-                    
-                }
-                .disabled(text.isEmpty)
+                Button("Share", systemImage: "square.and.arrow.up") {}
+                    .disabled(text.isEmpty)
             }
             
-            if isFocused {
-                ToolbarItem {
+            ToolbarItemGroup() {
+                Menu {
+                    if !text.isEmpty {
+                        Button("Pin", systemImage: "pin.fill") {}
+                        Button("Find in Note", systemImage: "magnifyingglass") {}
+                        Button("Move Note", systemImage: "folder") {}
+                        Button("Recent Notes", systemImage: "clock") {}
+                    }
+
+                    Button("Lines & Grids", systemImage: "rectangle.split.3x3") {}
+
+                    if !text.isEmpty {
+                        Button("Use Light Background", systemImage: "circle.righthalf.filled") {}
+                        Button("Delete", systemImage: "trash", role: .destructive) {}
+                    }
+                } label: {
+                    Label("Options", systemImage: "ellipsis.circle")
+                }
+            }
+            
+            ToolbarItem(placement: .topBarTrailing) {
+                if isFocused {
                     Button("Done") {
-                        dismiss()
+                        isFocused = false
                     }
                 }
             }
@@ -69,4 +86,3 @@ struct NoteView: View {
     .preferredColorScheme(.dark)
     .tint(.yellow)
 }
-
