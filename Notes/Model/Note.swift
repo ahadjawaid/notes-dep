@@ -22,6 +22,10 @@ class Note {
         self.lastModified = lastModified
     }
     
+    var title: String {
+        String(self.body.split(separator: "\n")[0])
+    }
+    
     static let sampleData = [
         Note(folder: Folder.sampleData[0], body: "Hi I'm bob"),
         Note(folder: Folder.sampleData[0], body: "I like turtles"),

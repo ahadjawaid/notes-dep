@@ -73,7 +73,7 @@ struct NoteView: View {
         }
     }
     
-    func getFormattedDate(date: Date) -> String {
+    private func getFormattedDate(date: Date) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "MMMM dd, yyyy 'at' h:mm a"
         return formatter.string(from: date)

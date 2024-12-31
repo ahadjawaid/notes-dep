@@ -56,7 +56,10 @@ struct NoteList: View {
         List(selection: $selectedNote) {
             ForEach(folder.notes) { note in
                 NavigationLink(value: note) {
-                    Text(note.body)
+                    VStack {
+                        Text(note.title)
+                            .bold()
+                    }
                 }
                 .tag(note)
             }
