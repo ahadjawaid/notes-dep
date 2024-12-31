@@ -70,3 +70,11 @@ struct FolderList: View {
         }
     }
 }
+
+#Preview {
+    NavigationStack {
+        FolderList()
+    }
+    .modelContainer(SampleData.shared.modelContainer)
+    .tint(.yellow)
+}
