@@ -47,7 +47,6 @@ struct NoteList: View {
     @Binding var path: NavigationPath
     let folder: Folder
     
-    @Query(sort: \Note.lastModified) private var notes: [Note]
     @Environment(\.modelContext) private var context
     
     @State private var searchQuery: String = ""
