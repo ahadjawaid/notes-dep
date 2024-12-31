@@ -9,6 +9,7 @@ import SwiftUI
 
 struct NoteListItem: View {
     let note: Note
+    
     var body: some View {
         VStack(alignment: .leading) {
             Text(note.title)
@@ -37,3 +38,8 @@ struct NoteListItem: View {
     }
 }
 
+#Preview {
+    List {
+        NoteListItem(note: SampleData.shared.note)
+    }
+}
