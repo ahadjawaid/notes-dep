@@ -20,6 +20,8 @@ class Note {
         self.body = body
         self.dateCreated = dateCreated
         self.lastModified = lastModified
+        
+        self.folder.notes.append(self)
     }
     
     var title: String {
