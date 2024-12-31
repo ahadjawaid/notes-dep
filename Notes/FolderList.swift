@@ -71,6 +71,10 @@ struct FolderList: View {
     private func deleteFolder(indicies: IndexSet) {
         for index in indicies {
             context.delete(folders[index])
+            
+            for note in folders[index].notes {
+                context.delete(note)
+            }
         }
     }
 }
