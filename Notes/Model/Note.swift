@@ -23,13 +23,13 @@ class Note {
     }
     
     var title: String {
-        String(self.body.split(separator: "\n")[0])
+        let lines = self.body.split(separator: "\n")
+        return lines.count > 0 ? String(lines[0]) : ""
     }
     
     var additionalText: String {
         let lines = self.body.split(separator: "\n")
-        let text: String = lines.count > 1 ? String(lines[1]) : "No additional text"
-        return text
+        return lines.count > 1 ? String(lines[1]) : "No additional text"
     }
     
     static let sampleData = [
