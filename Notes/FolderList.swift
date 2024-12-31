@@ -9,7 +9,7 @@ import SwiftUI
 import SwiftData
 
 struct FolderList: View {
-    @Query(sort: \Folder.name) private var folders: [Folder]
+    @Query(sort: \Folder.dateCreated, order: .reverse) private var folders: [Folder]
     @Environment(\.modelContext) private var context
     
     @State private var searchQuery = ""
@@ -18,16 +18,20 @@ struct FolderList: View {
     @State private var displayNewFolderForm = false
     
     var body: some View {
-        List() {
-            ForEach((searchQuery.isEmpty ? folders : searchResults).reversed()) { folder in
-                NavigationLink(value: folder) {
-                    FolderListItem(folder: folder)
+        List {
+            Section {
+                ForEach(searchQuery.isEmpty ? folders : searchResults) { folder in
+                    NavigationLink(value: folder) {
+                        FolderListItem(folder: folder)
+                    }
                 }
+                .onDelete(perform: deleteFolder)
+            } header: {
+                Text("Header")
             }
-            .onDelete(perform: deleteFolder)
+            .headerProminence(.increased)
         }
         .searchable(text: $searchQuery)
-        .textInputAutocapitalization(.never)
         .onChange(of: searchQuery) {
             filterSearchResults(query: searchQuery)
         }
