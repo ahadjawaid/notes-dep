@@ -65,6 +65,12 @@ struct NoteView: View {
                 }
             }
         }
+        .onDisappear {
+            if note.body.isEmpty {
+                note.folder.notes.removeAll { $0 == note }
+                context.delete(note)
+            }
+        }
     }
     
     func getFormattedDate(date: Date) -> String {
