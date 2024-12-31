@@ -50,11 +50,13 @@ struct NoteList: View {
     @Query(sort: \Note.lastModified) private var notes: [Note]
     @Environment(\.modelContext) private var context
     
-    @State private var searchText: String = ""
+    @State private var searchQuery: String = ""
+    @State private var searchResults: [Note] = []
+    @State private var groupedByDate: Bool = true
     
     var body: some View {
         List {
-            ForEach(folder.notes) { note in
+            ForEach(searchQuery.isEmpty ? folder.notes : searchResults) { note in
                 Button {
                     path.append(note)
                 } label: {
@@ -64,8 +66,11 @@ struct NoteList: View {
             .onDelete(perform: deleteNotes)
         }
         .tint(.primary)
-        .searchable(text: $searchText)
         .navigationTitle(folder.name)
+        .searchable(text: $searchQuery)
+        .onChange(of: searchQuery) {
+            filterSearchResults(query: searchQuery)
+        }
         .toolbar {
             ToolbarItemGroup(placement: .secondaryAction) {
                 ForEach(secondaryToolbarButtons) { button in
@@ -87,6 +92,13 @@ struct NoteList: View {
                     path.append(newNote)
                 }
             }
+        }
+    }
+    
+    private func filterSearchResults(query: String) {
+        searchResults = folder.notes.filter { note in
+            note.title.lowercased().contains(query.lowercased()) ||
+            note.additionalText.lowercased().contains(query.lowercased())
         }
     }
     
