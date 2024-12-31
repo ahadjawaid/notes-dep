@@ -13,15 +13,13 @@ struct NoteView: View {
     
     @Environment(\.modelContext) private var context
     
-    @State var text: String = "Type here..."
-    @State private var showDate: Bool = false
+    @State var text: String = ""
     @FocusState private var isFocused: Bool
     
     var body: some View {
         VStack {
-            if showDate {
-                Text("\(note.lastModified)")
-            }
+            Text("\(getFormattedDate(date: note.lastModified))")
+                .foregroundStyle(.secondary)
             
             TextEditor(text: $text)
                 .onAppear {
@@ -67,6 +65,12 @@ struct NoteView: View {
                 }
             }
         }
+    }
+    
+    func getFormattedDate(date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMMM dd, yyyy 'at' h:mm a"
+        return formatter.string(from: date)
     }
 }
 
