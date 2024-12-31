@@ -8,11 +8,32 @@
 import SwiftUI
 
 struct NoteListItem: View {
+    let note: Note
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack(alignment: .leading) {
+            Text(note.title)
+                .bold()
+            
+            Text("\(getDay())  \(note.additionalText)")
+                .foregroundStyle(.secondary)
+        }
+    }
+    
+    private func getDay() -> String {
+        let calendar = Calendar.current
+        let formatter = DateFormatter()
+        
+        if calendar.isDateInToday(note.lastModified) {
+            formatter.dateFormat = "hh:mm a"
+            return formatter.string(from: note.lastModified)
+        } else if calendar.isDate(note.lastModified, equalTo: Date(), toGranularity: .weekOfYear) {
+            formatter.dateFormat = "EEEE"
+            return formatter.string(from: note.lastModified)
+        } else {
+            formatter.dateFormat = "MM/dd/yyyy"
+            return formatter.string(from: note.lastModified)
+        }
+        
     }
 }
 
-#Preview {
-    NoteListItem()
-}
