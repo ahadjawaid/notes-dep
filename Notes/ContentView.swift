@@ -26,24 +26,17 @@ struct ContentView: View {
     @Query(sort: \Folder.name) private var folders: [Folder]
     @Environment(\.modelContext) private var context
     
-    @State var selectedFolder: Folder?
-    @State var selectedNote: Note?
+    @State private var path = NavigationPath()
     
     var body: some View {
-        NavigationSplitView {
-            FolderList(selectedFolder: $selectedFolder)
-        } content: {
-            if let folder = selectedFolder {
-                NoteList(folder: folder, selectedNote: $selectedNote)
-            } else {
-                Text("Please select a folder")
-            }
-        } detail: {
-            if let note = selectedNote {
-                NoteView(note: note)
-            } else {
-                Text("Please selecte a note")
-            }
+        NavigationStack(path: $path) {
+            FolderList()
+                .navigationDestination(for: Folder.self) { folder in
+                    NoteList(folder: folder)
+                        .navigationDestination(for: Note.self) {note in
+                            NoteView(note: note)
+                        }
+                }
         }
         .tint(.yellow)
     }

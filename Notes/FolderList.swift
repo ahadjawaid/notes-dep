@@ -9,8 +9,6 @@ import SwiftUI
 import SwiftData
 
 struct FolderList: View {
-    @Binding var selectedFolder: Folder?
-    
     @Query(sort: \Folder.name) private var folders: [Folder]
     @Environment(\.modelContext) private var context
     
@@ -20,12 +18,11 @@ struct FolderList: View {
     @State private var displayNewFolderForm = false
     
     var body: some View {
-        List(selection: $selectedFolder) {
+        List() {
             ForEach((searchQuery.isEmpty ? folders : searchResults).reversed()) { folder in
                 NavigationLink(value: folder) {
                     FolderListItem(folder: folder)
                 }
-                .tag(folder)
             }
             .onDelete(perform: deleteFolder)
         }

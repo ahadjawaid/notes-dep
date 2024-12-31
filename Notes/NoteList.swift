@@ -45,7 +45,6 @@ let secondaryToolbarButtons: [SecondaryToolbarButton] = [
 
 struct NoteList: View {
     let folder: Folder
-    @Binding var selectedNote: Note?
     
     @Query(sort: \Note.lastModified) private var notes: [Note]
     @Environment(\.modelContext) private var context
@@ -53,12 +52,11 @@ struct NoteList: View {
     @State private var searchText: String = ""
     
     var body: some View {
-        List(selection: $selectedNote) {
+        List {
             ForEach(folder.notes) { note in
                 NavigationLink(value: note) {
                     NoteListItem(note: note)
                 }
-                .tag(note)
             }
             .onDelete(perform: deleteNotes)
         }
@@ -82,7 +80,6 @@ struct NoteList: View {
                 
                 Button("Add Note", systemImage: "square.and.pencil") {
                     let newNote = Note(folder: folder)
-                    folder.notes.append(newNote)
                     context.insert(newNote)
                 }
             }
