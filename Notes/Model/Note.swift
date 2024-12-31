@@ -26,7 +26,7 @@ class Note {
     
     var title: String {
         let lines = self.body.split(separator: "\n")
-        return lines.count > 0 ? String(lines[0]) : ""
+        return lines.count > 0 ? String(lines[0]) : "New Note"
     }
     
     var additionalText: String {
