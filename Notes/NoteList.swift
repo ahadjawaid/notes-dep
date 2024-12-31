@@ -55,13 +55,15 @@ struct NoteList: View {
     var body: some View {
         List {
             ForEach(folder.notes) { note in
-                NavigationLink(value: note) {
+                Button {
+                    path.append(note)
+                } label: {
                     NoteListItem(note: note)
                 }
             }
             .onDelete(perform: deleteNotes)
         }
-        .listStyle(.insetGrouped)
+        .tint(.primary)
         .searchable(text: $searchText)
         .navigationTitle(folder.name)
         .toolbar {
@@ -94,4 +96,12 @@ struct NoteList: View {
             folder.notes.remove(at: index)
         }
     }
+}
+
+#Preview {
+    @Previewable @State var path = NavigationPath()
+    NavigationStack(path: $path) {
+        NoteList(path: $path, folder: SampleData.shared.folder)
+    }
+    .tint(.yellow)
 }
