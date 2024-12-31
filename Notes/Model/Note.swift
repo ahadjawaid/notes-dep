@@ -26,6 +26,12 @@ class Note {
         String(self.body.split(separator: "\n")[0])
     }
     
+    var additionalText: String {
+        let lines = self.body.split(separator: "\n")
+        let text: String = lines.count > 1 ? String(lines[1]) : "No additional text"
+        return text
+    }
+    
     static let sampleData = [
         Note(folder: Folder.sampleData[0], body: "Hi I'm bob"),
         Note(folder: Folder.sampleData[0], body: "I like turtles"),
