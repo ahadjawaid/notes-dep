@@ -44,6 +44,7 @@ let secondaryToolbarButtons: [SecondaryToolbarButton] = [
 ]
 
 struct NoteList: View {
+    @Binding var path: NavigationPath
     let folder: Folder
     
     @Query(sort: \Note.lastModified) private var notes: [Note]
@@ -81,6 +82,7 @@ struct NoteList: View {
                 Button("Add Note", systemImage: "square.and.pencil") {
                     let newNote = Note(folder: folder)
                     context.insert(newNote)
+                    path.append(newNote)
                 }
             }
         }

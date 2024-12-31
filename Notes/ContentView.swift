@@ -32,7 +32,7 @@ struct ContentView: View {
         NavigationStack(path: $path) {
             FolderList()
                 .navigationDestination(for: Folder.self) { folder in
-                    NoteList(folder: folder)
+                    NoteList(path: $path, folder: folder)
                         .navigationDestination(for: Note.self) {note in
                             NoteView(note: note)
                         }
