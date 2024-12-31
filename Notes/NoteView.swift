@@ -27,6 +27,7 @@ struct NoteView: View {
                 }
                 .onChange(of: text) {
                     note.body = text
+                    note.lastModified = .now
                 }
                 .focused($isFocused)
         }
