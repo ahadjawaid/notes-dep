@@ -24,7 +24,7 @@ struct NoteListItem: View {
         let formatter = DateFormatter()
         
         if calendar.isDateInToday(note.lastModified) {
-            formatter.dateFormat = "hh:mm a"
+            formatter.dateFormat = "h:mm a"
             return formatter.string(from: note.lastModified)
         } else if calendar.isDate(note.lastModified, equalTo: Date(), toGranularity: .weekOfYear) {
             formatter.dateFormat = "EEEE"
