@@ -14,12 +14,14 @@ struct FolderList: View {
     @Query(sort: \Folder.name) private var folders: [Folder]
     @Environment(\.modelContext) private var context
     
-    @State private var searchText = ""
+    @State private var searchQuery = ""
+    @State private var searchResults: [Folder] = []
+    
     @State private var displayNewFolderForm = false
     
     var body: some View {
         List(selection: $selectedFolder) {
-            ForEach(folders.reversed()) { folder in
+            ForEach((searchQuery.isEmpty ? folders : searchResults).reversed()) { folder in
                 NavigationLink(value: folder) {
                     FolderListItem(folder: folder)
                 }
@@ -27,7 +29,11 @@ struct FolderList: View {
             }
             .onDelete(perform: deleteFolder)
         }
-        .searchable(text: $searchText)
+        .searchable(text: $searchQuery)
+        .textInputAutocapitalization(.never)
+        .onChange(of: searchQuery) {
+            filterSearchResults(query: searchQuery)
+        }
         .navigationTitle("Folders")
         .toolbar {
             ToolbarItem {
@@ -50,6 +56,15 @@ struct FolderList: View {
         .sheet(isPresented: $displayNewFolderForm) {
             NewFolder()
         }
+    }
+    
+    private func filterSearchResults(query: String) {
+        searchResults = folders.filter { folder in
+            folder.name
+                  .lowercased()
+                  .contains(query.lowercased())
+        }
+        
     }
     
     private func deleteFolder(indicies: IndexSet) {
