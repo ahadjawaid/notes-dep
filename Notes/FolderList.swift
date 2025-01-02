@@ -27,7 +27,7 @@ struct FolderList: View {
                 }
                 .onDelete(perform: deleteFolder)
             } header: {
-                Text("Header")
+                Text("On My \(getCurrentDevice())")
             }
             .headerProminence(.increased)
         }
