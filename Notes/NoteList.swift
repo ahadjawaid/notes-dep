@@ -16,6 +16,22 @@ enum DateGroup {
     case year
 }
 
+struct GroupByDatePicker: View {
+    @Binding var groupedByDate: Bool
+    
+    var body: some View {
+        Picker(selection: $groupedByDate) {
+            Text("On").tag(true)
+            Text("Off").tag(false)
+        } label: {
+            Text("Group By Date")
+            Text(groupedByDate ? "On" : "Off")
+        } currentValueLabel: {
+            Image(systemName: "calendar")
+        }
+    }
+}
+
 struct NoteList: View {
     @Binding var path: NavigationPath
     let folder: Folder
@@ -27,20 +43,28 @@ struct NoteList: View {
     
     @State private var searchQuery: String = ""
     @State private var searchResults: [Note] = []
+    
     @State private var groupedByDate: Bool = true
     
     var body: some View {
         List {
             Group {
                 if searchQuery.isEmpty {
-                    ForEach(groupedFolderNotes, id: \.0) { (name, notes) in
-                        Section(header: Text(name)) {
-                            ForEach(notes) { note in
-                                NavigationButton(path: $path, note: note)
+                    if groupedByDate {
+                        ForEach(groupedFolderNotes, id: \.0) { (name, notes) in
+                            Section(header: Text(name)) {
+                                ForEach(sortedNotes(notes)) { note in
+                                    NavigationButton(path: $path, note: note)
+                                }
+                                .onDelete(perform: deleteNotes)
                             }
-                            .onDelete(perform: deleteNotes)
+                            .headerProminence(.increased)
                         }
-                        .headerProminence(.increased)
+                    } else {
+                        ForEach(sortedNotes(folder.notes)) { note in
+                            NavigationButton(path: $path, note: note)
+                        }
+                        .onDelete(perform: deleteNotes)
                     }
                 } else {
                     ForEach(sortedNotes(searchResults)) { note in
@@ -64,10 +88,13 @@ struct NoteList: View {
         }
         .toolbar {
             ToolbarItemGroup(placement: .secondaryAction) {
-                ForEach(secondaryToolbarButtons) { button in
-                    Button(button.text, systemImage: button.systemImage, action: button.action)
-                }
-                
+                Button("View as Gallery", systemImage: "square.grid.2x2") {}
+                Button("Add Folder", systemImage: "folder.badge.plus") {}
+                Button("Rename", systemImage: "pencil") {}
+                Button("Select Notes", systemImage: "check.circle") {}
+                Button("Sort By", systemImage: "arrow.up.arrow.down") {}
+                GroupByDatePicker(groupedByDate: $groupedByDate)
+                Button("View Attachments", systemImage: "paperclip") {}
             }
             ToolbarItemGroup(placement: .bottomBar) {
                 Spacer()
@@ -101,11 +128,11 @@ struct NoteList: View {
     }
 }
 
-func sortedNotes(_ notes: [Note]) -> [Note] {
+private func sortedNotes(_ notes: [Note]) -> [Note] {
     notes.sorted(by: { $0.lastModified > $1.lastModified })
 }
 
-func getNoteGroups(_ notes: [Note]) -> [String: [Note]] {
+private func getNoteGroups(_ notes: [Note]) -> [String: [Note]] {
     var groups: [String: [Note]] = [:]
     
     
@@ -133,7 +160,7 @@ func getNoteGroups(_ notes: [Note]) -> [String: [Note]] {
     return groups
 }
 
-func getDateGroup(_ date: Date) -> DateGroup {
+private func getDateGroup(_ date: Date) -> DateGroup {
     let calendar = Calendar.current
     
     if calendar.isDateInToday(date) {
@@ -148,41 +175,6 @@ func getDateGroup(_ date: Date) -> DateGroup {
         return .year
     }
 }
-
-struct SecondaryToolbarButton: Identifiable {
-    let id = UUID()
-    
-    let text: String
-    let systemImage: String
-    let action: @MainActor () -> Void
-}
-
-let secondaryToolbarButtons: [SecondaryToolbarButton] = [
-    SecondaryToolbarButton(text: "View as Gallery", systemImage: "square.grid.2x2", action: {
-        
-    }),
-    SecondaryToolbarButton(text: "Add Folder", systemImage: "folder.badge.plus", action: {
-        
-    }),
-    SecondaryToolbarButton(text: "Move This Folder", systemImage: "folder", action: {
-        
-    }),
-    SecondaryToolbarButton(text: "Rename", systemImage: "pencil", action: {
-        
-    }),
-    SecondaryToolbarButton(text: "Select Notes", systemImage: "check.circle", action: {
-        
-    }),
-    SecondaryToolbarButton(text: "Sort By", systemImage: "arrow.up.arrow.down", action: {
-        
-    }),
-    SecondaryToolbarButton(text: "Group By Date", systemImage: "calendar", action: {
-        
-    }),
-    SecondaryToolbarButton(text: "View Attachments", systemImage: "paperclip", action: {
-        
-    }),
-]
 
 
 #Preview {
