@@ -16,22 +16,6 @@ enum DateGroup {
     case year
 }
 
-struct GroupByDatePicker: View {
-    @Binding var groupedByDate: Bool
-    
-    var body: some View {
-        Picker(selection: $groupedByDate) {
-            Text("On").tag(true)
-            Text("Off").tag(false)
-        } label: {
-            Text("Group By Date")
-            Text(groupedByDate ? "On" : "Off")
-        } currentValueLabel: {
-            Image(systemName: "calendar")
-        }
-    }
-}
-
 struct NoteList: View {
     @Binding var path: NavigationPath
     let folder: Folder
@@ -124,6 +108,22 @@ struct NoteList: View {
         for index in indicies {
             context.delete(folder.notes[index])
             folder.notes.remove(at: index)
+        }
+    }
+}
+
+struct GroupByDatePicker: View {
+    @Binding var groupedByDate: Bool
+    
+    var body: some View {
+        Picker(selection: $groupedByDate) {
+            Text("On").tag(true)
+            Text("Off").tag(false)
+        } label: {
+            Text("Group By Date")
+            Text(groupedByDate ? "On" : "Off")
+        } currentValueLabel: {
+            Image(systemName: "calendar")
         }
     }
 }
