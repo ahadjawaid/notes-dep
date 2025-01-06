@@ -1,21 +1,16 @@
 Notes Features:
 
-
 - Add default folder All on My [device] and Notes
 - Recently Deleted folder
 	- On delete a folder (all documents go to deleted folder)
 
 List
 - Implement search on notesList
-- On my [device] subtitle for group aligned with list
 - Create note on folder screen
-- Navigate when creating note
 - Gallary View
 - Swipe right Move folder button
 - Swipe left Pin folder button
 - Pinned folder section
-- Group by Date sections
-	- Today, Yesterday, Previous 7 Days, Previous 30 Days, Month Names)
 - Select notes (highlight list item and check the circle)
 	- Intially: Move all button and Delete all Button in buttom toolbar
 	- When Select: Move button and delete button

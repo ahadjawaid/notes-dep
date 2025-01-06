@@ -28,9 +28,11 @@ struct FolderList: View {
                 .onDelete(perform: deleteFolder)
             } header: {
                 Text("On My \(getCurrentDevice())")
+                    .listRowInsets(EdgeInsets(top: 8, leading: 0, bottom: 11, trailing: 0))
             }
             .headerProminence(.increased)
         }
+        .animation(.default, value: folders)
         .searchable(text: $searchQuery)
         .onChange(of: searchQuery) {
             filterSearchResults(query: searchQuery)

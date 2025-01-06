@@ -36,11 +36,14 @@ struct NoteList: View {
                 if searchQuery.isEmpty {
                     if groupedByDate {
                         ForEach(groupedFolderNotes, id: \.0) { (name, notes) in
-                            Section(header: Text(name)) {
+                            Section {
                                 ForEach(sortedNotes(notes)) { note in
                                     NavigationButton(path: $path, note: note)
                                 }
                                 .onDelete(perform: deleteNotes)
+                            } header: {
+                                Text(name)
+                                    .listRowInsets(EdgeInsets(top: 8, leading: 0, bottom: 11, trailing: 0))
                             }
                             .headerProminence(.increased)
                         }
